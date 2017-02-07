@@ -1,6 +1,6 @@
-export const aThing = (url) => ({
-  type: 'UPDATE_Something',
-  url
+export const aThing = (times) => ({
+  type: 'UPDATE_DEPARTURE_TIMES',
+  times
 })
 
 //take "4:23 AM" format and
@@ -10,8 +10,8 @@ function to24Hour(sTime) {
   let digits = sTime.match(/\d+/g);
   let hour = parseInt(digits[0]);
   let min = parseInt(digits[1]);
-  if(am === 'PM' !== 12) {
-    hour += 12; 
+  if(am === 'PM') {
+    if(hour !== 12)  hour += 12; 
   //trains run until  2:27 am in a single day so replies are over 24 hours
   } else if (hour < 3) {
     hour += 24;
@@ -22,12 +22,23 @@ function to24Hour(sTime) {
   return {hour: hour, min: min};
 };
 
+function getAPITime(time) {
+  let hour = time.getHours();
+  let min = time.getMinutes();
+  let am =  hour >= 12 ? 'pm' : 'am';
+  hour = hour % 12;
+  if(hour === 0) hour = 12;
+  if(min < 10) min = '0' + min;
+  return hour + ':' + min + am;
+};
+
 export const updateStartTime = (time, stn) => {
   return function(dispatch) {
     let tripTime = Date.now() + time * 1000;
     tripTime = new Date(tripTime);
     let startHour = tripTime.getHours();
     let startMin = tripTime.getMinutes();
+    let tripTimeAPIFormat = getAPITime(tripTime);
 
 /*
 //used if need depart data from api, but need a destination for that
@@ -43,15 +54,25 @@ export const updateStartTime = (time, stn) => {
   function handler() {
      if(this.status == 200 &&
        this.responseXML != null) { 
+console.log(this.responseXML);
         //processData(this.responseXML.getElementById('test').textContent);
-        let times = this.responseXML.getElementsByTagName('item');
+//        let times = this.responseXML.getElementsByTagName('item');
+        let times = this.responseXML.getElementsByTagName('trip');
+        let timesArray = [];
         for(var i = 0; i < times.length; i++) {
-          let time = times[i].getAttribute('origTime');
-          let time24 = to24Hour(time);
+          let orgTime = times[i].getAttribute('origTimeMin');
+          let dstTime = times[i].getAttribute('destTimeMin');
+          let fare = times[i].getAttribute('fare');
+          let time24 = to24Hour(orgTime);
           if(time24.hour > startHour ||
               (time24.hour === startHour && time24.min > startMin)) {
-             console.log(time); 
+              timesArray.push({
+                orgTime: orgTime,
+                dstTime: dstTime,
+                fare: fare
+             });
           }
+          dispatch(aThing(timesArray))
         }
      } else {
         console.error('error fetching bart data')
@@ -61,9 +82,8 @@ export const updateStartTime = (time, stn) => {
   //https://xhr.spec.whatwg.org/
   let xhr = new XMLHttpRequest();
   xhr.onload = handler;
-  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=stnsched&orig=" + stn + "&date=now&key=MW9S-E7SL-26DU-VV8V" );
+//  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=stnsched&orig=" + stn + "&date=now&key=MW9S-E7SL-26DU-VV8V" );
+  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=depart&a=4&orig=" + stn + "&dest=ASHB&time=" + tripTimeAPIFormat + "&key=MW9S-E7SL-26DU-VV8V" );
   xhr.send();
-    
-    dispatch(aThing('fff'))
   }
 }

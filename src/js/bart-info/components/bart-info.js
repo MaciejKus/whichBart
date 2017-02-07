@@ -19,11 +19,16 @@ class BartInfo extends React.Component {
         The nearest BART station is { this.props.station.name }.
         <br />
         It will take { this.props.time.text } to get there biking. You can try to catch the following trains:
-       
+        <ol>
+          {this.props.times.map( (t,i) =>
+             <li key={t + i}>Depart: {t.orgTime}, Arrive: {t.dstTime}, Fare: {t.fare}</li>
+          )} 
+        </ol>
+                
       </div>
       )
     } else {
-      return (<div>hh</div> )
+      return (<div>bart station info</div> )
     }
   }
 }

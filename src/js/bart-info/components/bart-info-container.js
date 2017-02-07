@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
       name: state.station.name,
       abbr: state.station.abbr
     },
-    time: state.toBart.timeToBart
+    time: state.toBart.timeToBart,
+    times: state.bartInfo.times
   }
 }
 
