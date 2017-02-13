@@ -3,7 +3,8 @@ import Station from './station'
 
 const mapStateToProps = (state) => {
   return {
-   station : state.station.name
+   dstStation : state.station.dstStation,
+   orgStation : state.station.orgStation
   }
 };
 

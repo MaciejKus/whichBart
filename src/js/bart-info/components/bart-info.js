@@ -8,15 +8,15 @@ class BartInfo extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.time.value !== this.props.time.value) {
-      this.props.newTime(nextProps.time.value, nextProps.station.abbr);
+      this.props.newTime(nextProps.time.value, nextProps.orgStation.abbr, nextProps.dstStation.abbr);
     }
   }
 
   render() {
-    if(this.props.station.name) {
+    if(this.props.orgStation.name) {
       return (
       <div>
-        The nearest BART station is { this.props.station.name }.
+        The nearest BART station is { this.props.orgStation.name }. Get off at { this.props.dstStation.name }.
         <br />
         It will take { this.props.time.text } to get there biking. You can try to catch the following trains:
         <ol>

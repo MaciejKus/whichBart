@@ -5,12 +5,14 @@ import { addToBartTime } from '../actions'
 
 const mapStateToProps = (state) => {
   return {
-    station: {
-      lat: state.station.lat,
-      lng: state.station.lng
-    }, add: {
-      lat: state.userAddress.lat,
-      lng: state.userAddress.lng
+    org: {
+      lat: state.station.dstStation.lat,
+      lng: state.station.dstStation.lng,
+      status: state.station.dstStation.status
+    }, dst: {
+      lat: state.userAddress.dstAddress.lat,
+      lng: state.userAddress.dstAddress.lng,
+      status: state.userAddress.dstAddress.status
     }
   }
 }
@@ -18,7 +20,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addTime: (value, text) => {
-      dispatch(addToBartTime(value, text));
+//      dispatch(addToBartTime(value, text));
     }
   }
 };

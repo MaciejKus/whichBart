@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 //make choice of nearest bart station
 let Station = (props) => {
-  if(props.station.name) {
+  if(props.dstStation.name) {
     return (
     <div>
-      The nearest BART station is { props.station.name }.
+BOOP
     </div>
     )
   } else {

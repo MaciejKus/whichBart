@@ -3,24 +3,31 @@ import { connect } from 'react-redux';
 
 let SearchBar = (props) => {
 //  console.log(props)
-  let input;
+  let orgInput;
+  let dstInput;
 
   return (
   <div>
     <form onSubmit={ e => {
       e.preventDefault();
-      props.onClick(input.value);
+      props.onClick(orgInput.value, dstInput.value);
     }}>
         <input
           ref = {node => {
-            input = node;
+            orgInput = node;
+        }}/>
+        <input
+          ref = {node => {
+            dstInput = node;
         }}/>
         <input 
           type="submit"
 	  value="Submit"
 	/>
       </form>
-      Address: { props.address } 
+      Origin Address: { props.org.address} 
+      <br />
+      Destination Address: { props.dst.address } 
       <p> { props.stat } </p>
   </div>
 )

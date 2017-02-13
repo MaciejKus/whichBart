@@ -5,9 +5,13 @@ import { updateStartTime } from '../actions'
 
 const mapStateToProps = (state) => {
   return {
-    station: {
-      name: state.station.name,
-      abbr: state.station.abbr
+    orgStation: {
+      name: state.station.orgStation.name,
+      abbr: state.station.orgStation.abbr
+    },
+    dstStation: {
+      name: state.station.dstStation.name,
+      abbr: state.station.dstStation.abbr
     },
     time: state.toBart.timeToBart,
     times: state.bartInfo.times
@@ -16,8 +20,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    newTime: (time, abbr) => {
-      dispatch(updateStartTime(time, abbr));
+    newTime: (time, orgAbbr, dstAbbr) => {
+      dispatch(updateStartTime(time, orgAbbr, dstAbbr));
     }
   }
 };

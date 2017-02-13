@@ -62,11 +62,15 @@
 
 	var _stationContainer2 = _interopRequireDefault(_stationContainer);
 
-	var _mapContainer = __webpack_require__(215);
+	var _dstMapContainer = __webpack_require__(215);
 
-	var _mapContainer2 = _interopRequireDefault(_mapContainer);
+	var _dstMapContainer2 = _interopRequireDefault(_dstMapContainer);
 
-	var _bartInfoContainer = __webpack_require__(218);
+	var _orgMapContainer = __webpack_require__(218);
+
+	var _orgMapContainer2 = _interopRequireDefault(_orgMapContainer);
+
+	var _bartInfoContainer = __webpack_require__(219);
 
 	var _bartInfoContainer2 = _interopRequireDefault(_bartInfoContainer);
 
@@ -74,11 +78,11 @@
 
 	var _redux = __webpack_require__(186);
 
-	var _reduxThunk = __webpack_require__(221);
+	var _reduxThunk = __webpack_require__(222);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _rootReducer = __webpack_require__(222);
+	var _rootReducer = __webpack_require__(223);
 
 	var _rootReducer2 = _interopRequireDefault(_rootReducer);
 
@@ -94,8 +98,9 @@
 	    null,
 	    _react2.default.createElement(_searchBarContainer2.default, null),
 	    _react2.default.createElement(_stationContainer2.default, null),
-	    _react2.default.createElement(_mapContainer2.default, null),
-	    _react2.default.createElement(_bartInfoContainer2.default, null)
+	    _react2.default.createElement(_bartInfoContainer2.default, null),
+	    _react2.default.createElement(_orgMapContainer2.default, null),
+	    _react2.default.createElement(_dstMapContainer2.default, null)
 	  );
 	};
 
@@ -21563,14 +21568,15 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    stat: state.userAddress.stat,
-	    address: state.userAddress.address
+	    dst: state.userAddress.dstAddress,
+	    org: state.userAddress.orgAddress
 	  };
 	};
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    onClick: function onClick(address) {
-	      dispatch((0, _actions.fetchWithAddress)(address));
+	    onClick: function onClick(orgAddress, dstAddress) {
+	      if (orgAddress.trim() || dstAddress.trim()) dispatch((0, _actions.fetchWithAddress)(orgAddress, dstAddress));
 	    }
 	  };
 	};
@@ -23346,7 +23352,8 @@
 
 	var SearchBar = function SearchBar(props) {
 	  //  console.log(props)
-	  var input = void 0;
+	  var orgInput = void 0;
+	  var dstInput = void 0;
 
 	  return _react2.default.createElement(
 	    'div',
@@ -23355,19 +23362,26 @@
 	      'form',
 	      { onSubmit: function onSubmit(e) {
 	          e.preventDefault();
-	          props.onClick(input.value);
+	          props.onClick(orgInput.value, dstInput.value);
 	        } },
 	      _react2.default.createElement('input', {
 	        ref: function ref(node) {
-	          input = node;
+	          orgInput = node;
+	        } }),
+	      _react2.default.createElement('input', {
+	        ref: function ref(node) {
+	          dstInput = node;
 	        } }),
 	      _react2.default.createElement('input', {
 	        type: 'submit',
 	        value: 'Submit'
 	      })
 	    ),
-	    'Address: ',
-	    props.address,
+	    'Origin Address: ',
+	    props.org.address,
+	    _react2.default.createElement('br', null),
+	    'Destination Address: ',
+	    props.dst.address,
 	    _react2.default.createElement(
 	      'p',
 	      null,
@@ -23389,7 +23403,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.fetchWithAddress = exports.updateStatus = exports.updateLatLng = exports.updateAddress = undefined;
+	exports.fetchWithAddress = exports.updateStatus = exports.waitOnDst = exports.waitOnOrg = exports.updateOrg = exports.updateDst = undefined;
 
 	var _actions = __webpack_require__(211);
 
@@ -23399,19 +23413,39 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var updateAddress = exports.updateAddress = function updateAddress(address) {
+	var updateDst = exports.updateDst = function updateDst(address, lat, lng) {
 	  return {
-	    type: 'UPDATE_ADDRESS',
-	    address: address
+	    type: 'UPDATE_DST',
+	    dstAddress: {
+	      address: address,
+	      lat: lat,
+	      lng: lng
+	    }
 	  };
 	};
 
-	var updateLatLng = exports.updateLatLng = function updateLatLng(address, lat, lng) {
+	var updateOrg = exports.updateOrg = function updateOrg(address, lat, lng) {
 	  return {
-	    type: 'UPDATE_LATLNG',
-	    address: address,
-	    lat: lat,
-	    lng: lng
+	    type: 'UPDATE_ORG',
+	    orgAddress: {
+	      address: address,
+	      lat: lat,
+	      lng: lng
+	    }
+	  };
+	};
+
+	var waitOnOrg = exports.waitOnOrg = function waitOnOrg(m) {
+	  return {
+	    type: 'WAIT_ON_ORG',
+	    m: m
+	  };
+	};
+
+	var waitOnDst = exports.waitOnDst = function waitOnDst(m) {
+	  return {
+	    type: 'WAIT_ON_DST',
+	    m: m
 	  };
 	};
 
@@ -23422,8 +23456,9 @@
 	  };
 	};
 
-	var prevAdd = void 0;
-	var getLatLng = function getLatLng(address, dispatch) {
+	var prevDst = void 0,
+	    prevOrg = void 0;
+	var getLatLng = function getLatLng(address, dispatch, dstOrOrg) {
 	  dispatch(updateStatus('fetching data...'));
 	  address = address.trim(); //.replace(' ', '+');
 	  var geocoder = new google.maps.Geocoder();
@@ -23432,11 +23467,16 @@
 	      var lat = results[0].geometry.location.lat();
 	      var lng = results[0].geometry.location.lng();
 	      var add = results[0].formatted_address;
+	      if (dstOrOrg === 'dst' && prevDst !== add) {
+	        dispatch(updateDst(add, lat, lng));
+	        dispatch((0, _actions.updateDstStation)((0, _bartDist2.default)(lat, lng)));
+	        prevDst = add;
+	      } else if (dstOrOrg === 'org' && prevOrg !== add) {
+	        dispatch(updateOrg(add, lat, lng));
+	        dispatch((0, _actions.updateOrgStation)((0, _bartDist2.default)(lat, lng)));
+	        prevOrg = add;
+	      }
 	      dispatch(updateStatus(''));
-	      if (add === prevAdd) return;
-	      dispatch(updateLatLng(add, lat, lng));
-	      dispatch((0, _actions.updateStation)((0, _bartDist2.default)(lat, lng)));
-	      prevAdd = add;
 	    } else {
 	      console.error('Geocode was not successful for the following reason: ' + status);
 	      dispatch(updateStatus('Geocode was not successful'));
@@ -23444,14 +23484,14 @@
 	  });
 	};
 
-	var fetchWithAddress = exports.fetchWithAddress = function fetchWithAddress(address) {
-	  if (!address.trim()) {
-	    return;
-	  }
-
+	var fetchWithAddress = exports.fetchWithAddress = function fetchWithAddress(orgAddress, dstAddress) {
 	  return function (dispatch) {
-	    dispatch(updateAddress(address));
-	    getLatLng(address, dispatch);
+	    dispatch(waitOnOrg());
+	    dispatch(waitOnDst());
+	    dispatch((0, _actions.waitDstStation)());
+	    dispatch((0, _actions.waitOrgStation)());
+	    getLatLng(orgAddress, dispatch, 'org');
+	    getLatLng(dstAddress, dispatch, 'dst');
 	  };
 	};
 
@@ -23464,14 +23504,37 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var updateStation = exports.updateStation = function updateStation(s) {
+	var updateDstStation = exports.updateDstStation = function updateDstStation(s) {
 	    return {
-	        type: 'UPDATE_STATION',
+	        type: 'UPDATE_DST_STATION',
 	        name: s.name,
 	        abbr: s.abbr,
 	        lat: s.lat,
 	        lng: s.lng,
 	        address: s.address
+	    };
+	};
+
+	var updateOrgStation = exports.updateOrgStation = function updateOrgStation(s) {
+	    return {
+	        type: 'UPDATE_ORG_STATION',
+	        name: s.name,
+	        abbr: s.abbr,
+	        lat: s.lat,
+	        lng: s.lng,
+	        address: s.address
+	    };
+	};
+
+	var waitOrgStation = exports.waitOrgStation = function waitOrgStation() {
+	    return {
+	        type: 'WAIT_ORG_STATION'
+	    };
+	};
+
+	var waitDstStation = exports.waitDstStation = function waitDstStation() {
+	    return {
+	        type: 'WAIT_DST_STATION'
 	    };
 	};
 
@@ -23998,7 +24061,8 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    station: state.station.name
+	    dstStation: state.station.dstStation,
+	    orgStation: state.station.orgStation
 	  };
 	};
 
@@ -24026,13 +24090,11 @@
 
 	//make choice of nearest bart station
 	var Station = function Station(props) {
-	  if (props.station.name) {
+	  if (props.dstStation.name) {
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      'The nearest BART station is ',
-	      props.station.name,
-	      '.'
+	      'BOOP'
 	    );
 	  } else {
 	    return _react2.default.createElement('div', null);
@@ -24067,12 +24129,14 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    station: {
-	      lat: state.station.lat,
-	      lng: state.station.lng
-	    }, add: {
-	      lat: state.userAddress.lat,
-	      lng: state.userAddress.lng
+	    org: {
+	      lat: state.station.dstStation.lat,
+	      lng: state.station.dstStation.lng,
+	      status: state.station.dstStation.status
+	    }, dst: {
+	      lat: state.userAddress.dstAddress.lat,
+	      lng: state.userAddress.dstAddress.lng,
+	      status: state.userAddress.dstAddress.status
 	    }
 	  };
 	};
@@ -24080,7 +24144,7 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
 	    addTime: function addTime(value, text) {
-	      dispatch((0, _actions.addToBartTime)(value, text));
+	      //      dispatch(addToBartTime(value, text));
 	    }
 	  };
 	};
@@ -24131,6 +24195,9 @@
 	    var _this = _possibleConstructorReturn(this, (GMap.__proto__ || Object.getPrototypeOf(GMap)).call(this, props));
 
 	    _this.state = { zoom: 12 };
+	    //only set these once se we can remove existing direction markers
+	    _this.directionsService = new google.maps.DirectionsService();
+	    _this.directionsDisplay = new google.maps.DirectionsRenderer();
 	    return _this;
 	  }
 
@@ -24144,11 +24211,18 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'GMap' },
-	          _react2.default.createElement('div', { className: 'GMap-canvas', ref: 'mapCanvas' })
+	          _react2.default.createElement('div', { className: 'GMap-canvas', ref: 'theMap' })
 	        ),
-	        this.props.station.lat,
+	        this.props.dst.lat,
 	        ' and lng is ',
-	        this.props.station.lng
+	        this.props.dst.lng,
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.org.lat,
+	          ' and lng is ',
+	          this.props.org.lng
+	        )
 	      );
 	    }
 
@@ -24159,26 +24233,26 @@
 	    value: function componentWillReceiveProps(nextProps) {
 	      var _this2 = this;
 
-	      if (nextProps.station.lat !== this.props.station.lat || nextProps.station.lng != this.props.station.lng) {
-	        var directionsService;
-	        var directionsDisplay;
+	      if (nextProps.dst.status === 'done' && nextProps.org.status === 'done' && (nextProps.dst.lat !== this.props.dst.lat || nextProps.dst.lng != this.props.dst.lng || nextProps.org.lng != this.props.org.lng || nextProps.org.lat != this.props.org.lat)) {
+	        var dd;
 
 	        (function () {
 	          var addTime = _this2.props.addTime;
+	          _this2.directionsDisplay.setMap(_this2.map);
 
-	          //      this.map.setCenter(new google.maps.LatLng(nextProps.lat, nextProps.lng));
-	          directionsService = new google.maps.DirectionsService();
-	          directionsDisplay = new google.maps.DirectionsRenderer();
+	          //remove existing direction markers from previous render
+	          _this2.directionsDisplay.setDirections({ routes: [] });
 
-	          directionsDisplay.setMap(_this2.map);
+	          dd = _this2.directionsDisplay;
 
-	          directionsService.route({
-	            origin: new google.maps.LatLng(nextProps.add.lat, nextProps.add.lng),
-	            destination: new google.maps.LatLng(nextProps.station.lat, nextProps.station.lng),
+	          _this2.directionsService.route({
+	            origin: new google.maps.LatLng(nextProps.org.lat, nextProps.org.lng),
+	            destination: new google.maps.LatLng(nextProps.dst.lat, nextProps.dst.lng),
 	            travelMode: 'BICYCLING'
 	          }, function (res, status) {
 	            if (status === 'OK') {
-	              directionsDisplay.setDirections(res);
+	              dd.setDirections(res);
+	              //directionsDisplay.setDirections(res);
 	              addTime(res.routes[0].legs[0].duration.value, res.routes[0].legs[0].duration.text);
 	            } else {
 	              console.error('directions failed: ' + status);
@@ -24217,12 +24291,12 @@
 	        zoom: this.state.zoom,
 	        center: this.mapCenter()
 	      };
-	      return new google.maps.Map(this.refs.mapCanvas, mapOptions);
+	      return new google.maps.Map(this.refs.theMap, mapOptions);
 	    }
 	  }, {
 	    key: 'mapCenter',
 	    value: function mapCenter() {
-	      return new google.maps.LatLng(this.props.station.lat, this.props.station.lng);
+	      return new google.maps.LatLng(this.props.dst.lat, this.props.dst.lng);
 	    }
 
 	    /*
@@ -24282,20 +24356,81 @@
 
 	var _reactRedux = __webpack_require__(179);
 
-	var _bartInfo = __webpack_require__(219);
+	var _map = __webpack_require__(216);
+
+	var _map2 = _interopRequireDefault(_map);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _actions = __webpack_require__(217);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    dst: {
+	      lat: state.station.orgStation.lat,
+	      lng: state.station.orgStation.lng,
+	      status: state.station.orgStation.status
+	    }, org: {
+	      lat: state.userAddress.orgAddress.lat,
+	      lng: state.userAddress.orgAddress.lng,
+	      status: state.userAddress.orgAddress.status
+	    }
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    addTime: function addTime(value, text) {
+	      dispatch((0, _actions.addToBartTime)(value, text));
+	    }
+	  };
+	};
+
+	var GoogleMap = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_map2.default);
+
+	exports.default = GoogleMap;
+	/*
+	const GoogleMap = () => (
+	 <div>map</div>
+	)
+
+	export default GoogleMap
+	*/
+
+/***/ },
+/* 219 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(179);
+
+	var _bartInfo = __webpack_require__(220);
 
 	var _bartInfo2 = _interopRequireDefault(_bartInfo);
 
-	var _actions = __webpack_require__(220);
+	var _actions = __webpack_require__(221);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//import React from 'react'
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    station: {
-	      name: state.station.name,
-	      abbr: state.station.abbr
+	    orgStation: {
+	      name: state.station.orgStation.name,
+	      abbr: state.station.orgStation.abbr
+	    },
+	    dstStation: {
+	      name: state.station.dstStation.name,
+	      abbr: state.station.dstStation.abbr
 	    },
 	    time: state.toBart.timeToBart,
 	    times: state.bartInfo.times
@@ -24304,8 +24439,8 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    newTime: function newTime(time, abbr) {
-	      dispatch((0, _actions.updateStartTime)(time, abbr));
+	    newTime: function newTime(time, orgAbbr, dstAbbr) {
+	      dispatch((0, _actions.updateStartTime)(time, orgAbbr, dstAbbr));
 	    }
 	  };
 	};
@@ -24315,7 +24450,7 @@
 	exports.default = BartInfoContainer;
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24353,18 +24488,20 @@
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      if (nextProps.time.value !== this.props.time.value) {
-	        this.props.newTime(nextProps.time.value, nextProps.station.abbr);
+	        this.props.newTime(nextProps.time.value, nextProps.orgStation.abbr, nextProps.dstStation.abbr);
 	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      if (this.props.station.name) {
+	      if (this.props.orgStation.name) {
 	        return _react2.default.createElement(
 	          'div',
 	          null,
 	          'The nearest BART station is ',
-	          this.props.station.name,
+	          this.props.orgStation.name,
+	          '. Get off at ',
+	          this.props.dstStation.name,
 	          '.',
 	          _react2.default.createElement('br', null),
 	          'It will take ',
@@ -24403,7 +24540,7 @@
 	exports.default = BartInfo;
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24447,7 +24584,7 @@
 	  return hour + ':' + min + am;
 	};
 
-	var updateStartTime = exports.updateStartTime = function updateStartTime(time, stn) {
+	var updateStartTime = exports.updateStartTime = function updateStartTime(time, stn, dst) {
 	  return function (dispatch) {
 	    var tripTime = Date.now() + time * 1000;
 	    tripTime = new Date(tripTime);
@@ -24468,7 +24605,6 @@
 
 	    function handler() {
 	      if (this.status == 200 && this.responseXML != null) {
-	        console.log(this.responseXML);
 	        //processData(this.responseXML.getElementById('test').textContent);
 	        //        let times = this.responseXML.getElementsByTagName('item');
 	        var times = this.responseXML.getElementsByTagName('trip');
@@ -24496,13 +24632,13 @@
 	    var xhr = new XMLHttpRequest();
 	    xhr.onload = handler;
 	    //  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=stnsched&orig=" + stn + "&date=now&key=MW9S-E7SL-26DU-VV8V" );
-	    xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=depart&a=4&orig=" + stn + "&dest=ASHB&time=" + tripTimeAPIFormat + "&key=MW9S-E7SL-26DU-VV8V");
+	    xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=depart&a=4&orig=" + stn + "&dest=" + dst + "&time=" + tripTimeAPIFormat + "&key=MW9S-E7SL-26DU-VV8V");
 	    xhr.send();
 	  };
 	};
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24530,7 +24666,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24541,19 +24677,19 @@
 
 	var _redux = __webpack_require__(186);
 
-	var _reducer = __webpack_require__(223);
+	var _reducer = __webpack_require__(224);
 
 	var _reducer2 = _interopRequireDefault(_reducer);
 
-	var _reducer3 = __webpack_require__(224);
+	var _reducer3 = __webpack_require__(225);
 
 	var _reducer4 = _interopRequireDefault(_reducer3);
 
-	var _reducer5 = __webpack_require__(225);
+	var _reducer5 = __webpack_require__(226);
 
 	var _reducer6 = _interopRequireDefault(_reducer5);
 
-	var _reducer7 = __webpack_require__(226);
+	var _reducer7 = __webpack_require__(227);
 
 	var _reducer8 = _interopRequireDefault(_reducer7);
 
@@ -24569,7 +24705,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24578,23 +24714,54 @@
 	  value: true
 	});
 	var userAddress = function userAddress() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { address: 'init address', stat: '' };
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+	    orgAddress: {
+	      address: '',
+	      lat: 37.7,
+	      lng: -122.2
+	    }, dstAddress: {
+	      address: '',
+	      lat: 37.7,
+	      lng: -122.2
+	    }, stat: '' };
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case 'UPDATE_ADDRESS':
+	    case 'WAIT_ON_ORG':
 	      return Object.assign({}, state, {
-	        address: action.address
-	      });
+	        orgAddress: {
+	          address: state.orgAddress.address,
+	          lat: state.orgAddress.lat,
+	          lng: state.orgAddress.lng,
+	          status: 'waiting'
+	        } });
+	    case 'WAIT_ON_DST':
+	      return Object.assign({}, state, {
+	        dstAddress: {
+	          address: state.dstAddress.address,
+	          lat: state.dstAddress.lat,
+	          lng: state.dstAddress.lng,
+	          status: 'waiting'
+	        } });
+	    case 'UPDATE_DST':
+	      return Object.assign({}, state, {
+	        dstAddress: {
+	          address: action.dstAddress.address,
+	          lat: action.dstAddress.lat,
+	          lng: action.dstAddress.lng,
+	          status: 'done'
+	        } });
+	    case 'UPDATE_ORG':
+	      return Object.assign({}, state, {
+	        orgAddress: {
+	          address: action.orgAddress.address,
+	          lat: action.orgAddress.lat,
+	          lng: action.orgAddress.lng,
+	          status: 'done'
+	        } });
 	    case 'UPDATE_STATUS':
 	      return Object.assign({}, state, {
 	        stat: action.stat
-	      });
-	    case 'UPDATE_LATLNG':
-	      return Object.assign({}, state, {
-	        address: action.address,
-	        lat: action.lat,
-	        lng: action.lng
 	      });
 	    default:
 	      return state;
@@ -24604,7 +24771,7 @@
 	exports.default = userAddress;
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24613,17 +24780,55 @@
 	  value: true
 	});
 	var station = function station() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { name: '', lat: 37.80, lng: -122.25 };
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+	    dstStation: { name: '', lat: 37.9, lng: -120.2 },
+	    orgStation: { name: '', lat: 37.80, lng: -120.25 } };
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case 'UPDATE_STATION':
+	    case 'UPDATE_DST_STATION':
 	      return Object.assign({}, state, {
-	        address: action.address,
-	        lat: action.lat,
-	        lng: action.lng,
-	        abbr: action.abbr,
-	        name: action.name
+	        dstStation: {
+	          address: action.address,
+	          lat: action.lat,
+	          lng: action.lng,
+	          abbr: action.abbr,
+	          name: action.name,
+	          status: 'done'
+	        }
+	      });
+	    case 'UPDATE_ORG_STATION':
+	      return Object.assign({}, state, {
+	        orgStation: {
+	          address: action.address,
+	          lat: action.lat,
+	          lng: action.lng,
+	          abbr: action.abbr,
+	          name: action.name,
+	          status: 'done'
+	        }
+	      });
+	    case 'WAIT_ORG_STATION':
+	      return Object.assign({}, state, {
+	        orgStation: {
+	          address: state.orgStation.address,
+	          lat: state.orgStation.lat,
+	          lng: state.orgStation.lng,
+	          abbr: state.orgStation.abbr,
+	          name: state.orgStation.name,
+	          status: 'waiting'
+	        }
+	      });
+	    case 'WAIT_DST_STATION':
+	      return Object.assign({}, state, {
+	        dstStation: {
+	          address: state.dstStation.address,
+	          lat: state.dstStation.lat,
+	          lng: state.dstStation.lng,
+	          abbr: state.dstStation.abbr,
+	          name: state.dstStation.name,
+	          status: 'waiting'
+	        }
 	      });
 	    default:
 	      return state;
@@ -24633,7 +24838,7 @@
 	exports.default = station;
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24658,7 +24863,7 @@
 	exports.default = toBart;
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports) {
 
 	'use strict';

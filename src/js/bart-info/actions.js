@@ -32,7 +32,7 @@ function getAPITime(time) {
   return hour + ':' + min + am;
 };
 
-export const updateStartTime = (time, stn) => {
+export const updateStartTime = (time, stn, dst) => {
   return function(dispatch) {
     let tripTime = Date.now() + time * 1000;
     tripTime = new Date(tripTime);
@@ -54,7 +54,6 @@ export const updateStartTime = (time, stn) => {
   function handler() {
      if(this.status == 200 &&
        this.responseXML != null) { 
-console.log(this.responseXML);
         //processData(this.responseXML.getElementById('test').textContent);
 //        let times = this.responseXML.getElementsByTagName('item');
         let times = this.responseXML.getElementsByTagName('trip');
@@ -83,7 +82,7 @@ console.log(this.responseXML);
   let xhr = new XMLHttpRequest();
   xhr.onload = handler;
 //  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=stnsched&orig=" + stn + "&date=now&key=MW9S-E7SL-26DU-VV8V" );
-  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=depart&a=4&orig=" + stn + "&dest=ASHB&time=" + tripTimeAPIFormat + "&key=MW9S-E7SL-26DU-VV8V" );
+  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=depart&a=4&orig=" + stn + "&dest=" + dst + "&time=" + tripTimeAPIFormat + "&key=MW9S-E7SL-26DU-VV8V" );
   xhr.send();
   }
 }
