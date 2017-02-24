@@ -70,7 +70,15 @@
 
 	var _orgMapContainer2 = _interopRequireDefault(_orgMapContainer);
 
-	var _bartInfoContainer = __webpack_require__(219);
+	var _orgDirectionsContainer = __webpack_require__(219);
+
+	var _orgDirectionsContainer2 = _interopRequireDefault(_orgDirectionsContainer);
+
+	var _dstDirectionsContainer = __webpack_require__(221);
+
+	var _dstDirectionsContainer2 = _interopRequireDefault(_dstDirectionsContainer);
+
+	var _bartInfoContainer = __webpack_require__(222);
 
 	var _bartInfoContainer2 = _interopRequireDefault(_bartInfoContainer);
 
@@ -78,11 +86,11 @@
 
 	var _redux = __webpack_require__(186);
 
-	var _reduxThunk = __webpack_require__(222);
+	var _reduxThunk = __webpack_require__(225);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _rootReducer = __webpack_require__(223);
+	var _rootReducer = __webpack_require__(226);
 
 	var _rootReducer2 = _interopRequireDefault(_rootReducer);
 
@@ -99,7 +107,9 @@
 	    _react2.default.createElement(_searchBarContainer2.default, null),
 	    _react2.default.createElement(_stationContainer2.default, null),
 	    _react2.default.createElement(_bartInfoContainer2.default, null),
+	    _react2.default.createElement(_orgDirectionsContainer2.default, null),
 	    _react2.default.createElement(_orgMapContainer2.default, null),
+	    _react2.default.createElement(_dstDirectionsContainer2.default, null),
 	    _react2.default.createElement(_dstMapContainer2.default, null)
 	  );
 	};
@@ -21575,8 +21585,9 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    onClick: function onClick(orgAddress, dstAddress) {
+	    onClick: function onClick(orgAddress, dstAddress, departTime) {
 	      if (orgAddress.trim() || dstAddress.trim()) dispatch((0, _actions.fetchWithAddress)(orgAddress, dstAddress));
+	      dispatch((0, _actions.updateDepartTime)(departTime));
 	    }
 	  };
 	};
@@ -23354,6 +23365,7 @@
 	  //  console.log(props)
 	  var orgInput = void 0;
 	  var dstInput = void 0;
+	  var departTime = void 0;
 
 	  return _react2.default.createElement(
 	    'div',
@@ -23362,7 +23374,7 @@
 	      'form',
 	      { onSubmit: function onSubmit(e) {
 	          e.preventDefault();
-	          props.onClick(orgInput.value, dstInput.value);
+	          props.onClick(orgInput.value, dstInput.value, departTime.value);
 	        } },
 	      _react2.default.createElement('input', {
 	        ref: function ref(node) {
@@ -23372,6 +23384,223 @@
 	        ref: function ref(node) {
 	          dstInput = node;
 	        } }),
+	      _react2.default.createElement(
+	        'select',
+	        { ref: function ref(node) {
+	            departTime = node;
+	          } },
+	        _react2.default.createElement('option', { value: '0 0' }),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '4 00' },
+	          '4:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '4 30' },
+	          '4:30am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '5 00' },
+	          '5:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '5 30' },
+	          '5:30am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '6 00' },
+	          '6:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '6 30' },
+	          '6:30am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '7 00' },
+	          '7:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '7 30' },
+	          '7:30am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '8 00' },
+	          '8:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '8 30' },
+	          '8:30am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '9 00' },
+	          '9:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '9 30' },
+	          '9:30am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '10 00' },
+	          '10:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '10 30' },
+	          '10:30am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '11 00' },
+	          '11:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '11 30' },
+	          '11:30am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '12 00' },
+	          '12:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '12 30' },
+	          '12:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '13 00' },
+	          '1:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '13 30' },
+	          '1:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '14 00' },
+	          '2:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '14 30' },
+	          '2:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '15 00' },
+	          '3:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '15 30' },
+	          '3:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '16 00' },
+	          '4:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '16 30' },
+	          '4:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '17 00' },
+	          '5:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '17 30' },
+	          '5:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '18 00' },
+	          '6:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '18 30' },
+	          '6:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '19 00' },
+	          '7:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '19 30' },
+	          '7:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '20 00' },
+	          '8:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '20 30' },
+	          '8:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '21 00' },
+	          '9:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '21 30' },
+	          '9:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '22 00' },
+	          '10:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '22 30' },
+	          '10:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '23 00' },
+	          '11:00pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '23 30' },
+	          '11:30pm'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '24 00' },
+	          '12:00am'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: '24 30' },
+	          '12:30am'
+	        )
+	      ),
 	      _react2.default.createElement('input', {
 	        type: 'submit',
 	        value: 'Submit'
@@ -23403,7 +23632,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.fetchWithAddress = exports.updateStatus = exports.waitOnDst = exports.waitOnOrg = exports.updateOrg = exports.updateDst = undefined;
+	exports.fetchWithAddress = exports.updateStatus = exports.waitOnDst = exports.waitOnOrg = exports.updateOrg = exports.updateDst = exports.updateDepartTime = undefined;
 
 	var _actions = __webpack_require__(211);
 
@@ -23412,6 +23641,13 @@
 	var _bartDist2 = _interopRequireDefault(_bartDist);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var updateDepartTime = exports.updateDepartTime = function updateDepartTime(departTime) {
+	  return {
+	    type: 'UPDATE_DEPART_TIME',
+	    departTime: departTime
+	  };
+	};
 
 	var updateDst = exports.updateDst = function updateDst(address, lat, lng) {
 	  return {
@@ -24145,6 +24381,9 @@
 	  return {
 	    addTime: function addTime(value, text) {
 	      //      dispatch(addToBartTime(value, text));
+	    },
+	    addDirections: function addDirections(array) {
+	      dispatch((0, _actions.addBartDirectionDsts)(array, 'UPDATE_DIRECTIONS_DST'));
 	    }
 	  };
 	};
@@ -24212,16 +24451,6 @@
 	          'div',
 	          { className: 'GMap' },
 	          _react2.default.createElement('div', { className: 'GMap-canvas', ref: 'theMap' })
-	        ),
-	        this.props.dst.lat,
-	        ' and lng is ',
-	        this.props.dst.lng,
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          this.props.org.lat,
-	          ' and lng is ',
-	          this.props.org.lng
 	        )
 	      );
 	    }
@@ -24233,24 +24462,36 @@
 	    value: function componentWillReceiveProps(nextProps) {
 	      var _this2 = this;
 
-	      if (nextProps.dst.status === 'done' && nextProps.org.status === 'done' && (nextProps.dst.lat !== this.props.dst.lat || nextProps.dst.lng != this.props.dst.lng || nextProps.org.lng != this.props.org.lng || nextProps.org.lat != this.props.org.lat)) {
-	        var dd;
+	      //remove everything inside <> brackets (the HTML)
+	      var rmHTML = function rmHTML(t) {
+	        return t.replace(/<(?:.|\n)*?>/gm, '');
+	      };
 
+	      var addDirs = function addDirs(a) {
+	        var ans = [];
+	        for (var i = 0; i < a.length; i++) {
+	          ans.push(rmHTML(a[i].instructions));
+	        }
+	        return ans;
+	      };
+
+	      if (nextProps.dst.status === 'done' && nextProps.org.status === 'done' && (nextProps.dst.lat !== this.props.dst.lat || nextProps.dst.lng != this.props.dst.lng || nextProps.org.lng != this.props.org.lng || nextProps.org.lat != this.props.org.lat)) {
 	        (function () {
 	          var addTime = _this2.props.addTime;
+	          var addDirections = _this2.props.addDirections;
 	          _this2.directionsDisplay.setMap(_this2.map);
 
 	          //remove existing direction markers from previous render
 	          _this2.directionsDisplay.setDirections({ routes: [] });
 
-	          dd = _this2.directionsDisplay;
-
+	          var dd = _this2.directionsDisplay;
 	          _this2.directionsService.route({
 	            origin: new google.maps.LatLng(nextProps.org.lat, nextProps.org.lng),
 	            destination: new google.maps.LatLng(nextProps.dst.lat, nextProps.dst.lng),
 	            travelMode: 'BICYCLING'
 	          }, function (res, status) {
 	            if (status === 'OK') {
+	              addDirections(addDirs(res.routes[0].legs[0].steps));
 	              dd.setDirections(res);
 	              //directionsDisplay.setDirections(res);
 	              addTime(res.routes[0].legs[0].duration.value, res.routes[0].legs[0].duration.text);
@@ -24334,13 +24575,22 @@
 	});
 	var UPDATE_TIME_TO_BART = 'UPDATE_TIME_TO_BART';
 
+	//need to make org and dst version
 	var addToBartTime = exports.addToBartTime = function addToBartTime(value, text) {
 	  return {
-	    type: UPDATE_TIME_TO_BART,
+	    type: 'UPDATE_TIME_TO_BART',
 	    timeToBart: {
 	      value: value,
 	      text: text
 	    }
+	  };
+	};
+
+	//need org and dst version
+	var addBartDirectionDsts = exports.addBartDirectionDsts = function addBartDirectionDsts(directions, type) {
+	  return {
+	    type: type,
+	    directions: directions
 	  };
 	};
 
@@ -24386,6 +24636,9 @@
 	  return {
 	    addTime: function addTime(value, text) {
 	      dispatch((0, _actions.addToBartTime)(value, text));
+	    },
+	    addDirections: function addDirections(array) {
+	      dispatch((0, _actions.addBartDirectionDsts)(array, 'UPDATE_DIRECTIONS_ORG'));
 	    }
 	  };
 	};
@@ -24413,15 +24666,176 @@
 
 	var _reactRedux = __webpack_require__(179);
 
-	var _bartInfo = __webpack_require__(220);
+	var _directions = __webpack_require__(220);
 
-	var _bartInfo2 = _interopRequireDefault(_bartInfo);
+	var _directions2 = _interopRequireDefault(_directions);
 
-	var _actions = __webpack_require__(221);
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//import React from 'react'
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    directions: state.toBart.orgDirections
+	  };
+	};
+
+	/*
+	const mapDispatchToProps = (dispatch) => {
+	  return {
+	    addTime: (value, text) => {
+	//      dispatch(addToBartTime(value, text));
+	    },
+	    addDirections: (array) => {
+	      dispatch(addBartDirectionDsts(array, 'UPDATE_DIRECTIONS_DST'));
+	    }
+	  }
+	};
+	*/
+
+	var OrgDirections = (0, _reactRedux.connect)(mapStateToProps)(_directions2.default);
+
+	exports.default = OrgDirections;
+
+/***/ },
+/* 220 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(179);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Directions = function (_React$Component) {
+	  _inherits(Directions, _React$Component);
+
+	  function Directions(props) {
+	    _classCallCheck(this, Directions);
+
+	    return _possibleConstructorReturn(this, (Directions.__proto__ || Object.getPrototypeOf(Directions)).call(this, props));
+	  }
+
+	  _createClass(Directions, [{
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.directions.length > 0) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'ol',
+	            null,
+	            this.props.directions.map(function (d, i) {
+	              return _react2.default.createElement(
+	                'li',
+	                { key: d + i },
+	                d
+	              );
+	            })
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'No directions'
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {}
+	  }]);
+
+	  return Directions;
+	}(_react2.default.Component);
+
+	exports.default = Directions;
+
+/***/ },
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(179);
+
+	var _directions = __webpack_require__(220);
+
+	var _directions2 = _interopRequireDefault(_directions);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    directions: state.toBart.dstDirections
+	  };
+	};
+
+	/*
+	const mapDispatchToProps = (dispatch) => {
+	  return {
+	    addTime: (value, text) => {
+	//      dispatch(addToBartTime(value, text));
+	    },
+	    addDirections: (array) => {
+	      dispatch(addBartDirectionDsts(array, 'UPDATE_DIRECTIONS_DST'));
+	    }
+	  }
+	};
+	*/
+
+	var DstDirections = (0, _reactRedux.connect)(mapStateToProps)(_directions2.default);
+
+	exports.default = DstDirections;
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(179);
+
+	var _bartInfo = __webpack_require__(223);
+
+	var _bartInfo2 = _interopRequireDefault(_bartInfo);
+
+	var _actions = __webpack_require__(224);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    orgStation: {
@@ -24432,6 +24846,7 @@
 	      name: state.station.dstStation.name,
 	      abbr: state.station.dstStation.abbr
 	    },
+	    departTime: state.userAddress.departTime,
 	    time: state.toBart.timeToBart,
 	    times: state.bartInfo.times
 	  };
@@ -24439,8 +24854,8 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    newTime: function newTime(time, orgAbbr, dstAbbr) {
-	      dispatch((0, _actions.updateStartTime)(time, orgAbbr, dstAbbr));
+	    newTime: function newTime(time, orgAbbr, dstAbbr, departTime) {
+	      dispatch((0, _actions.updateStartTime)(time, orgAbbr, dstAbbr, departTime));
 	    }
 	  };
 	};
@@ -24450,7 +24865,7 @@
 	exports.default = BartInfoContainer;
 
 /***/ },
-/* 220 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24487,8 +24902,8 @@
 	  _createClass(BartInfo, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      if (nextProps.time.value !== this.props.time.value) {
-	        this.props.newTime(nextProps.time.value, nextProps.orgStation.abbr, nextProps.dstStation.abbr);
+	      if (nextProps.time.value !== this.props.time.value || nextProps.departTime !== this.props.departTime) {
+	        this.props.newTime(nextProps.time.value, nextProps.orgStation.abbr, nextProps.dstStation.abbr, nextProps.departTime);
 	      }
 	    }
 	  }, {
@@ -24528,7 +24943,7 @@
 	        return _react2.default.createElement(
 	          'div',
 	          null,
-	          'bart station info'
+	          'bart station INFO'
 	        );
 	      }
 	    }
@@ -24540,7 +24955,7 @@
 	exports.default = BartInfo;
 
 /***/ },
-/* 221 */
+/* 224 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24584,29 +24999,30 @@
 	  return hour + ':' + min + am;
 	};
 
-	var updateStartTime = exports.updateStartTime = function updateStartTime(time, stn, dst) {
+	function departHourMinutes(string) {
+	  var a = string.split(' ');
+	  return { hour: parseInt(a[0]), min: parseInt(a[1]) };
+	}
+
+	var updateStartTime = exports.updateStartTime = function updateStartTime(time, stn, dst, departTime) {
 	  return function (dispatch) {
-	    var tripTime = Date.now() + time * 1000;
+	    var departHM = departHourMinutes(departTime);
+
+	    var tripTime = Date.now(); // + time * 1000;
 	    tripTime = new Date(tripTime);
+	    //if a time was selected
+	    if (departHM.hour > 0) {
+	      tripTime.setHours(departHM.hour, departHM.min);
+	    }
+	    //add biking time to station
+	    tripTime = new Date(tripTime.getTime() + time * 1000);
+
 	    var startHour = tripTime.getHours();
 	    var startMin = tripTime.getMinutes();
 	    var tripTimeAPIFormat = getAPITime(tripTime);
 
-	    /*
-	    //used if need depart data from api, but need a destination for that
-	        let tripHour = tripTime.getHours();
-	        let tripAM = 'am';
-	        if(tripHour > 12) {
-	          tripHour -= 12;
-	          tripAM = 'pm';
-	        }
-	        let tripTimeString = tripHour + ':' + tripTime.getMinutes() + '+' +  tripAM;
-	    */
-
 	    function handler() {
 	      if (this.status == 200 && this.responseXML != null) {
-	        //processData(this.responseXML.getElementById('test').textContent);
-	        //        let times = this.responseXML.getElementsByTagName('item');
 	        var times = this.responseXML.getElementsByTagName('trip');
 	        var timesArray = [];
 	        for (var i = 0; i < times.length; i++) {
@@ -24631,14 +25047,13 @@
 	    //https://xhr.spec.whatwg.org/
 	    var xhr = new XMLHttpRequest();
 	    xhr.onload = handler;
-	    //  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=stnsched&orig=" + stn + "&date=now&key=MW9S-E7SL-26DU-VV8V" );
 	    xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=depart&a=4&orig=" + stn + "&dest=" + dst + "&time=" + tripTimeAPIFormat + "&key=MW9S-E7SL-26DU-VV8V");
 	    xhr.send();
 	  };
 	};
 
 /***/ },
-/* 222 */
+/* 225 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24666,7 +25081,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 223 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24677,19 +25092,19 @@
 
 	var _redux = __webpack_require__(186);
 
-	var _reducer = __webpack_require__(224);
+	var _reducer = __webpack_require__(227);
 
 	var _reducer2 = _interopRequireDefault(_reducer);
 
-	var _reducer3 = __webpack_require__(225);
+	var _reducer3 = __webpack_require__(228);
 
 	var _reducer4 = _interopRequireDefault(_reducer3);
 
-	var _reducer5 = __webpack_require__(226);
+	var _reducer5 = __webpack_require__(229);
 
 	var _reducer6 = _interopRequireDefault(_reducer5);
 
-	var _reducer7 = __webpack_require__(227);
+	var _reducer7 = __webpack_require__(230);
 
 	var _reducer8 = _interopRequireDefault(_reducer7);
 
@@ -24705,7 +25120,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 224 */
+/* 227 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24723,7 +25138,9 @@
 	      address: '',
 	      lat: 37.7,
 	      lng: -122.2
-	    }, stat: '' };
+	    },
+	    stat: '',
+	    departTime: '0 0' };
 	  var action = arguments[1];
 
 	  switch (action.type) {
@@ -24763,6 +25180,10 @@
 	      return Object.assign({}, state, {
 	        stat: action.stat
 	      });
+	    case 'UPDATE_DEPART_TIME':
+	      return Object.assign({}, state, {
+	        departTime: action.departTime
+	      });
 	    default:
 	      return state;
 	  }
@@ -24771,7 +25192,7 @@
 	exports.default = userAddress;
 
 /***/ },
-/* 225 */
+/* 228 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24838,7 +25259,7 @@
 	exports.default = station;
 
 /***/ },
-/* 226 */
+/* 229 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24847,13 +25268,25 @@
 	  value: true
 	});
 	var toBart = function toBart() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { timeToBart: { text: '', time: 0 } };
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+	    timeToBart: { text: '', time: 0 },
+	    dstDirections: [],
+	    orgDirections: []
+	  };
 	  var action = arguments[1];
 
 	  switch (action.type) {
 	    case 'UPDATE_TIME_TO_BART':
 	      return Object.assign({}, state, {
 	        timeToBart: action.timeToBart
+	      });
+	    case 'UPDATE_DIRECTIONS_DST':
+	      return Object.assign({}, state, {
+	        dstDirections: action.directions
+	      });
+	    case 'UPDATE_DIRECTIONS_ORG':
+	      return Object.assign({}, state, {
+	        orgDirections: action.directions
 	      });
 	    default:
 	      return state;
@@ -24863,7 +25296,7 @@
 	exports.default = toBart;
 
 /***/ },
-/* 227 */
+/* 230 */
 /***/ function(module, exports) {
 
 	'use strict';

@@ -12,19 +12,31 @@ class GMap extends React.Component {
 
 	render() {
 // console.log(this.props)
-    return <div><div className="GMap">
+    return <div>
+     <div className="GMap">
       <div className='GMap-canvas' ref="theMap">
       </div>
-    </div>
-      { this.props.dst.lat } and lng is { this.props.dst.lng }
-<p>
-      { this.props.org.lat } and lng is { this.props.org.lng }
-</p>
+     </div>
     </div>
   }
 
   //update centering of map
   componentWillReceiveProps(nextProps) {
+    //remove everything inside <> brackets (the HTML)
+    const rmHTML = (t) => {
+      return t.replace(/<(?:.|\n)*?>/gm, '');
+    }
+
+
+
+    const addDirs = (a) => {
+      let ans = [];
+      for(let i = 0; i < a.length; i++) {
+        ans.push(rmHTML(a[i].instructions));
+      }
+      return ans;
+    }
+
     if( (nextProps.dst.status === 'done' && 
          nextProps.org.status === 'done') && 
         (
@@ -35,18 +47,20 @@ class GMap extends React.Component {
         )
     ) {
       let addTime = this.props.addTime;
+      let addDirections = this.props.addDirections;
       this.directionsDisplay.setMap(this.map)
 
       //remove existing direction markers from previous render
       this.directionsDisplay.setDirections({routes: []});
 
-      var dd = this.directionsDisplay; 
+      let dd = this.directionsDisplay; 
       this.directionsService.route({
         origin:  new google.maps.LatLng(nextProps.org.lat, nextProps.org.lng),
         destination: new google.maps.LatLng(nextProps.dst.lat, nextProps.dst.lng),
         travelMode: 'BICYCLING'
       }, function(res, status) {
          if(status === 'OK') {
+           addDirections(addDirs(res.routes[0].legs[0].steps));
            dd.setDirections(res);
            //directionsDisplay.setDirections(res);
            addTime(res.routes[0].legs[0].duration.value, res.routes[0].legs[0].duration.text);

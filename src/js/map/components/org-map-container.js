@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import GMap from './map'
 import React from 'react'
 import { addToBartTime } from '../actions'
+import { addBartDirectionDsts } from '../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -21,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addTime: (value, text) => {
       dispatch(addToBartTime(value, text));
+    },
+    addDirections: (array) => {
+      dispatch(addBartDirectionDsts(array, 'UPDATE_DIRECTIONS_ORG'));
     }
   }
 };

@@ -4,6 +4,11 @@ import { waitDstStation } from '../station/actions';
 import { waitOrgStation } from '../station/actions';
 import bartDist from '../find-station/bart-dist';
 
+export const updateDepartTime = (departTime) => ({
+  type: 'UPDATE_DEPART_TIME',
+  departTime: departTime
+});
+
 export const updateDst = (address, lat, lng) => ({
     type: 'UPDATE_DST',
     dstAddress: {

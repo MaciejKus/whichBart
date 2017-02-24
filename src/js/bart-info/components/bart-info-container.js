@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-//import React from 'react'
 import BartInfo from './bart-info'
 import { updateStartTime } from '../actions'
 
@@ -13,6 +12,7 @@ const mapStateToProps = (state) => {
       name: state.station.dstStation.name,
       abbr: state.station.dstStation.abbr
     },
+    departTime: state.userAddress.departTime,
     time: state.toBart.timeToBart,
     times: state.bartInfo.times
   }
@@ -20,8 +20,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    newTime: (time, orgAbbr, dstAbbr) => {
-      dispatch(updateStartTime(time, orgAbbr, dstAbbr));
+    newTime: (time, orgAbbr, dstAbbr, departTime) => {
+      dispatch(updateStartTime(time, orgAbbr, dstAbbr, departTime));
     }
   }
 };

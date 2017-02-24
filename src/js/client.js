@@ -4,6 +4,8 @@ import SearchAddress from './search-bar/components/search-bar-container.js';
 import BartStation from './station/components/station-container.js';
 import DstGoogleMap from './map/components/dst-map-container.js';
 import OrgGoogleMap from './map/components/org-map-container.js';
+import OrgDirections from './directions/components/org-directions-container.js';
+import DstDirections from './directions/components/dst-directions-container.js';
 import BartInfoContainer from './bart-info/components/bart-info-container.js';
 //import GMap from './map/components/map.js';
 import { Provider } from 'react-redux';
@@ -20,7 +22,9 @@ const Main = () => {
         <SearchAddress/>
         <BartStation />
         <BartInfoContainer />
+        <OrgDirections />
         <OrgGoogleMap />
+        <DstDirections />
         <DstGoogleMap />
       </div>
     );

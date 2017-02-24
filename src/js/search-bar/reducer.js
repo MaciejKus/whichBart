@@ -7,7 +7,9 @@ const userAddress = (state = {
         address: '',
         lat: 37.7,
         lng: -122.2
-      }, stat: ''}, action) => {
+      }, 
+     stat: '',
+     departTime: '0 0'}, action) => {
   switch(action.type) {
     case 'WAIT_ON_ORG':
       return Object.assign({}, state, {
@@ -44,6 +46,10 @@ const userAddress = (state = {
     case 'UPDATE_STATUS':
       return Object.assign({}, state, {
         stat: action.stat
+        })
+    case 'UPDATE_DEPART_TIME':
+      return Object.assign({}, state, {
+        departTime: action.departTime
         })
     default:
       return state;

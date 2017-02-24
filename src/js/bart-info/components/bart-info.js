@@ -7,8 +7,8 @@ class BartInfo extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.time.value !== this.props.time.value) {
-      this.props.newTime(nextProps.time.value, nextProps.orgStation.abbr, nextProps.dstStation.abbr);
+    if(nextProps.time.value !== this.props.time.value ||  nextProps.departTime !== this.props.departTime) {
+      this.props.newTime(nextProps.time.value, nextProps.orgStation.abbr, nextProps.dstStation.abbr, nextProps.departTime);
     }
   }
 
@@ -28,7 +28,7 @@ class BartInfo extends React.Component {
       </div>
       )
     } else {
-      return (<div>bart station info</div> )
+      return (<div>bart station INFO</div> )
     }
   }
 }

@@ -32,30 +32,33 @@ function getAPITime(time) {
   return hour + ':' + min + am;
 };
 
-export const updateStartTime = (time, stn, dst) => {
+function departHourMinutes(string) {
+  let a = string.split(' '); 
+  return {hour: parseInt(a[0]), min: parseInt(a[1])}
+}
+
+
+export const updateStartTime = (time, stn, dst, departTime) => {
   return function(dispatch) {
-    let tripTime = Date.now() + time * 1000;
+    let departHM = departHourMinutes(departTime);
+
+    let tripTime = Date.now(); // + time * 1000;
     tripTime = new Date(tripTime);
+    //if a time was selected
+    if(departHM.hour > 0) {
+      tripTime.setHours(departHM.hour, departHM.min);
+    }
+    //add biking time to station
+    tripTime= new Date(tripTime.getTime() + time * 1000);
+
     let startHour = tripTime.getHours();
     let startMin = tripTime.getMinutes();
     let tripTimeAPIFormat = getAPITime(tripTime);
 
-/*
-//used if need depart data from api, but need a destination for that
-    let tripHour = tripTime.getHours();
-    let tripAM = 'am';
-    if(tripHour > 12) {
-      tripHour -= 12;
-      tripAM = 'pm';
-    }
-    let tripTimeString = tripHour + ':' + tripTime.getMinutes() + '+' +  tripAM;
-*/
   
   function handler() {
      if(this.status == 200 &&
        this.responseXML != null) { 
-        //processData(this.responseXML.getElementById('test').textContent);
-//        let times = this.responseXML.getElementsByTagName('item');
         let times = this.responseXML.getElementsByTagName('trip');
         let timesArray = [];
         for(var i = 0; i < times.length; i++) {
@@ -81,7 +84,6 @@ export const updateStartTime = (time, stn, dst) => {
   //https://xhr.spec.whatwg.org/
   let xhr = new XMLHttpRequest();
   xhr.onload = handler;
-//  xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=stnsched&orig=" + stn + "&date=now&key=MW9S-E7SL-26DU-VV8V" );
   xhr.open("GET", "http://api.bart.gov/api/sched.aspx?cmd=depart&a=4&orig=" + stn + "&dest=" + dst + "&time=" + tripTimeAPIFormat + "&key=MW9S-E7SL-26DU-VV8V" );
   xhr.send();
   }

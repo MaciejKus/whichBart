@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import SearchBar from './search-bar'
 import { fetchWithAddress } from '../actions';
+import { updateDepartTime } from '../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -12,8 +13,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onClick: (orgAddress, dstAddress) => {
+    onClick: (orgAddress, dstAddress, departTime) => {
       if(orgAddress.trim() || dstAddress.trim()) dispatch(fetchWithAddress(orgAddress, dstAddress))
+      dispatch(updateDepartTime(departTime))
     }
   }
 };
