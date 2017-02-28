@@ -22,8 +22,12 @@ const Main = () => {
         <SearchAddress/>
         <BartStation />
         <BartInfoContainer />
+         <a name="origin"></a>
+        <h2>Origin Directions</h2>
         <OrgDirections />
         <OrgGoogleMap />
+         <a name="destination"></a>
+        <h2>Destination Directions</h2>
         <DstDirections />
         <DstGoogleMap />
       </div>

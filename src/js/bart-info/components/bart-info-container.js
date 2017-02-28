@@ -13,7 +13,8 @@ const mapStateToProps = (state) => {
       abbr: state.station.dstStation.abbr
     },
     departTime: state.userAddress.departTime,
-    time: state.toBart.timeToBart,
+    orgTime: state.toBart.timeToBart,
+    dstTime: state.toBart.timeFromBart,
     times: state.bartInfo.times
   }
 }

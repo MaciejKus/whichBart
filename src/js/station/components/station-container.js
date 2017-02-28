@@ -13,4 +13,3 @@ const BartStation = connect(
 )(Station)
 
 export default BartStation
-

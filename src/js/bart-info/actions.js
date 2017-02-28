@@ -65,17 +65,20 @@ export const updateStartTime = (time, stn, dst, departTime) => {
           let orgTime = times[i].getAttribute('origTimeMin');
           let dstTime = times[i].getAttribute('destTimeMin');
           let fare = times[i].getAttribute('fare');
+          let TT = times[i].getAttribute('tripTime');
           let time24 = to24Hour(orgTime);
+          //only show trains you can actually catch
           if(time24.hour > startHour ||
               (time24.hour === startHour && time24.min > startMin)) {
               timesArray.push({
                 orgTime: orgTime,
                 dstTime: dstTime,
+                tripTime: TT,
                 fare: fare
              });
           }
-          dispatch(aThing(timesArray))
         }
+        dispatch(aThing(timesArray))
      } else {
         console.error('error fetching bart data')
      }

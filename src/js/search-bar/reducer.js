@@ -1,12 +1,12 @@
 const userAddress = (state = {
       orgAddress: {
         address: '',
-        lat: 37.7,
-        lng: -122.2
+        lat: 37.79,
+        lng: -122.26
       }, dstAddress: {
         address: '',
-        lat: 37.7,
-        lng: -122.2
+        lat: 37.79,
+        lng: -122.26
       }, 
      stat: '',
      departTime: '0 0'}, action) => {

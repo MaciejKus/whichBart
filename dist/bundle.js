@@ -107,8 +107,20 @@
 	    _react2.default.createElement(_searchBarContainer2.default, null),
 	    _react2.default.createElement(_stationContainer2.default, null),
 	    _react2.default.createElement(_bartInfoContainer2.default, null),
+	    _react2.default.createElement('a', { name: 'origin' }),
+	    _react2.default.createElement(
+	      'h2',
+	      null,
+	      'Origin Directions'
+	    ),
 	    _react2.default.createElement(_orgDirectionsContainer2.default, null),
 	    _react2.default.createElement(_orgMapContainer2.default, null),
+	    _react2.default.createElement('a', { name: 'destination' }),
+	    _react2.default.createElement(
+	      'h2',
+	      null,
+	      'Destination Directions'
+	    ),
 	    _react2.default.createElement(_dstDirectionsContainer2.default, null),
 	    _react2.default.createElement(_dstMapContainer2.default, null)
 	  );
@@ -23369,254 +23381,292 @@
 
 	  return _react2.default.createElement(
 	    'div',
-	    null,
+	    { className: 'searchBar' },
+	    _react2.default.createElement(
+	      'h1',
+	      null,
+	      'Bike and Bart'
+	    ),
 	    _react2.default.createElement(
 	      'form',
 	      { onSubmit: function onSubmit(e) {
 	          e.preventDefault();
 	          props.onClick(orgInput.value, dstInput.value, departTime.value);
 	        } },
-	      _react2.default.createElement('input', {
-	        ref: function ref(node) {
-	          orgInput = node;
-	        } }),
-	      _react2.default.createElement('input', {
-	        ref: function ref(node) {
-	          dstInput = node;
-	        } }),
 	      _react2.default.createElement(
-	        'select',
-	        { ref: function ref(node) {
-	            departTime = node;
-	          } },
-	        _react2.default.createElement('option', { value: '0 0' }),
+	        'div',
+	        { className: 'labelAndInput' },
 	        _react2.default.createElement(
-	          'option',
-	          { value: '4 00' },
-	          '4:00am'
+	          'label',
+	          { className: 'block' },
+	          'Origin Address:'
+	        ),
+	        _react2.default.createElement('input', {
+	          ref: function ref(node) {
+	            orgInput = node;
+	          } })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'labelAndInput' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'block' },
+	          'Destination Address:'
+	        ),
+	        _react2.default.createElement('input', {
+	          ref: function ref(node) {
+	            dstInput = node;
+	          } })
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'labelAndInput' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'block' },
+	          'Departure Time (optional):'
 	        ),
 	        _react2.default.createElement(
-	          'option',
-	          { value: '4 30' },
-	          '4:30am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '5 00' },
-	          '5:00am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '5 30' },
-	          '5:30am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '6 00' },
-	          '6:00am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '6 30' },
-	          '6:30am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '7 00' },
-	          '7:00am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '7 30' },
-	          '7:30am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '8 00' },
-	          '8:00am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '8 30' },
-	          '8:30am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '9 00' },
-	          '9:00am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '9 30' },
-	          '9:30am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '10 00' },
-	          '10:00am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '10 30' },
-	          '10:30am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '11 00' },
-	          '11:00am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '11 30' },
-	          '11:30am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '12 00' },
-	          '12:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '12 30' },
-	          '12:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '13 00' },
-	          '1:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '13 30' },
-	          '1:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '14 00' },
-	          '2:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '14 30' },
-	          '2:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '15 00' },
-	          '3:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '15 30' },
-	          '3:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '16 00' },
-	          '4:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '16 30' },
-	          '4:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '17 00' },
-	          '5:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '17 30' },
-	          '5:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '18 00' },
-	          '6:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '18 30' },
-	          '6:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '19 00' },
-	          '7:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '19 30' },
-	          '7:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '20 00' },
-	          '8:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '20 30' },
-	          '8:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '21 00' },
-	          '9:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '21 30' },
-	          '9:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '22 00' },
-	          '10:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '22 30' },
-	          '10:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '23 00' },
-	          '11:00pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '23 30' },
-	          '11:30pm'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '24 00' },
-	          '12:00am'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: '24 30' },
-	          '12:30am'
+	          'select',
+	          { className: 'subbutton', ref: function ref(node) {
+	              departTime = node;
+	            } },
+	          _react2.default.createElement('option', { value: '0 0' }),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '4 00' },
+	            '4:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '4 30' },
+	            '4:30am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '5 00' },
+	            '5:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '5 30' },
+	            '5:30am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '6 00' },
+	            '6:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '6 30' },
+	            '6:30am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '7 00' },
+	            '7:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '7 30' },
+	            '7:30am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '8 00' },
+	            '8:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '8 30' },
+	            '8:30am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '9 00' },
+	            '9:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '9 30' },
+	            '9:30am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '10 00' },
+	            '10:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '10 30' },
+	            '10:30am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '11 00' },
+	            '11:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '11 30' },
+	            '11:30am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '12 00' },
+	            '12:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '12 30' },
+	            '12:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '13 00' },
+	            '1:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '13 30' },
+	            '1:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '14 00' },
+	            '2:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '14 30' },
+	            '2:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '15 00' },
+	            '3:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '15 30' },
+	            '3:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '16 00' },
+	            '4:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '16 30' },
+	            '4:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '17 00' },
+	            '5:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '17 30' },
+	            '5:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '18 00' },
+	            '6:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '18 30' },
+	            '6:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '19 00' },
+	            '7:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '19 30' },
+	            '7:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '20 00' },
+	            '8:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '20 30' },
+	            '8:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '21 00' },
+	            '9:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '21 30' },
+	            '9:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '22 00' },
+	            '10:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '22 30' },
+	            '10:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '23 00' },
+	            '11:00pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '23 30' },
+	            '11:30pm'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '24 00' },
+	            '12:00am'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: '24 30' },
+	            '12:30am'
+	          )
 	        )
 	      ),
-	      _react2.default.createElement('input', {
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement('input', { className: 'subbutton sub',
 	        type: 'submit',
 	        value: 'Submit'
 	      })
 	    ),
-	    'Origin Address: ',
-	    props.org.address,
-	    _react2.default.createElement('br', null),
-	    'Destination Address: ',
-	    props.dst.address,
 	    _react2.default.createElement(
-	      'p',
-	      null,
-	      ' ',
-	      props.stat,
-	      ' '
+	      'div',
+	      { className: 'addresses' },
+	      props.org.address,
+	      _react2.default.createElement('br', null),
+	      props.dst.address ? "to" : "",
+	      _react2.default.createElement('br', null),
+	      props.dst.address,
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        ' ',
+	        props.stat,
+	        ' '
+	      )
 	    )
 	  );
 	};
@@ -24327,11 +24377,7 @@
 	//make choice of nearest bart station
 	var Station = function Station(props) {
 	  if (props.dstStation.name) {
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      'BOOP'
-	    );
+	    return _react2.default.createElement('div', null);
 	  } else {
 	    return _react2.default.createElement('div', null);
 	  }
@@ -24380,7 +24426,7 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
 	    addTime: function addTime(value, text) {
-	      //      dispatch(addToBartTime(value, text));
+	      dispatch((0, _actions.addToBartTime)(value, text, 'UPDATE_TIME_FROM_BART'));
 	    },
 	    addDirections: function addDirections(array) {
 	      dispatch((0, _actions.addBartDirectionDsts)(array, 'UPDATE_DIRECTIONS_DST'));
@@ -24576,10 +24622,10 @@
 	var UPDATE_TIME_TO_BART = 'UPDATE_TIME_TO_BART';
 
 	//need to make org and dst version
-	var addToBartTime = exports.addToBartTime = function addToBartTime(value, text) {
+	var addToBartTime = exports.addToBartTime = function addToBartTime(value, text, type) {
 	  return {
-	    type: 'UPDATE_TIME_TO_BART',
-	    timeToBart: {
+	    type: type,
+	    timeBart: {
 	      value: value,
 	      text: text
 	    }
@@ -24635,7 +24681,7 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
 	    addTime: function addTime(value, text) {
-	      dispatch((0, _actions.addToBartTime)(value, text));
+	      dispatch((0, _actions.addToBartTime)(value, text, 'UPDATE_TIME_TO_BART'));
 	    },
 	    addDirections: function addDirections(array) {
 	      dispatch((0, _actions.addBartDirectionDsts)(array, 'UPDATE_DIRECTIONS_ORG'));
@@ -24847,7 +24893,8 @@
 	      abbr: state.station.dstStation.abbr
 	    },
 	    departTime: state.userAddress.departTime,
-	    time: state.toBart.timeToBart,
+	    orgTime: state.toBart.timeToBart,
+	    dstTime: state.toBart.timeFromBart,
 	    times: state.bartInfo.times
 	  };
 	};
@@ -24902,49 +24949,103 @@
 	  _createClass(BartInfo, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      if (nextProps.time.value !== this.props.time.value || nextProps.departTime !== this.props.departTime) {
-	        this.props.newTime(nextProps.time.value, nextProps.orgStation.abbr, nextProps.dstStation.abbr, nextProps.departTime);
+	      if (nextProps.orgTime.value !== this.props.orgTime.value || nextProps.dstTime.value !== this.props.dstTime.value || nextProps.departTime !== this.props.departTime) {
+	        this.props.newTime(nextProps.orgTime.value, nextProps.orgStation.abbr, nextProps.dstStation.abbr, nextProps.departTime);
 	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      if (this.props.orgStation.name) {
+	        var triptime = '';
+	        if (this.props.times[0]) {
+	          var t = parseInt(this.props.dstTime.value / 60 + this.props.orgTime.value / 60 + parseInt(this.props.times[0].tripTime));
+	          //       t += 5; //wait time for a bart train
+	          var h = Math.floor(t / 60);
+	          var m = t % 60;
+	          if (m < 10) m = '0' + m;
+	          triptime = 'The whole trip will take around ' + h + ':' + m + " hours";
+	        }
 	        return _react2.default.createElement(
-	          'div',
+	          'span',
 	          null,
-	          'The nearest BART station is ',
-	          this.props.orgStation.name,
-	          '. Get off at ',
-	          this.props.dstStation.name,
-	          '.',
-	          _react2.default.createElement('br', null),
-	          'It will take ',
-	          this.props.time.text,
-	          ' to get there biking. You can try to catch the following trains:',
+	          _react2.default.createElement('a', { name: 'summary' }),
 	          _react2.default.createElement(
-	            'ol',
-	            null,
-	            this.props.times.map(function (t, i) {
-	              return _react2.default.createElement(
-	                'li',
-	                { key: t + i },
-	                'Depart: ',
-	                t.orgTime,
-	                ', Arrive: ',
-	                t.dstTime,
-	                ', Fare: ',
-	                t.fare
-	              );
-	            })
+	            'div',
+	            { className: 'summary' },
+	            _react2.default.createElement(
+	              'h2',
+	              null,
+	              'Trip Summary'
+	            ),
+	            'The nearest BART station is ',
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              this.props.orgStation.name
+	            ),
+	            '.',
+	            _react2.default.createElement('br', null),
+	            'It will take about ',
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              this.props.orgTime.text
+	            ),
+	            ' to get there by bicycle.',
+	            _react2.default.createElement('br', null),
+	            'Take BART to ',
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              this.props.dstStation.name
+	            ),
+	            ' Station.',
+	            _react2.default.createElement('br', null),
+	            'You can catch the following trains:',
+	            _react2.default.createElement(
+	              'ol',
+	              null,
+	              this.props.times.map(function (t, i) {
+	                return _react2.default.createElement(
+	                  'li',
+	                  { key: t + i },
+	                  'Depart: ',
+	                  _react2.default.createElement(
+	                    'strong',
+	                    null,
+	                    t.orgTime
+	                  ),
+	                  ', Arrive: ',
+	                  _react2.default.createElement(
+	                    'strong',
+	                    null,
+	                    t.dstTime
+	                  ),
+	                  ', Fare: ',
+	                  t.fare,
+	                  ', Trip Time: ',
+	                  t.tripTime
+	                );
+	              })
+	            ),
+	            _react2.default.createElement('br', null),
+	            'From ',
+	            this.props.dstStation.name,
+	            ' Station it will take another ',
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              this.props.dstTime.text
+	            ),
+	            ' by bicycle to get to your destination.',
+	            _react2.default.createElement('br', null),
+	            triptime,
+	            _react2.default.createElement('br', null)
 	          )
 	        );
 	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          'bart station INFO'
-	        );
+	        return _react2.default.createElement('a', { name: 'summary' });
 	      }
 	    }
 	  }]);
@@ -25029,16 +25130,19 @@
 	          var orgTime = times[i].getAttribute('origTimeMin');
 	          var dstTime = times[i].getAttribute('destTimeMin');
 	          var fare = times[i].getAttribute('fare');
+	          var TT = times[i].getAttribute('tripTime');
 	          var time24 = to24Hour(orgTime);
+	          //only show trains you can actually catch
 	          if (time24.hour > startHour || time24.hour === startHour && time24.min > startMin) {
 	            timesArray.push({
 	              orgTime: orgTime,
 	              dstTime: dstTime,
+	              tripTime: TT,
 	              fare: fare
 	            });
 	          }
-	          dispatch(aThing(timesArray));
 	        }
+	        dispatch(aThing(timesArray));
 	      } else {
 	        console.error('error fetching bart data');
 	      }
@@ -25132,12 +25236,12 @@
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
 	    orgAddress: {
 	      address: '',
-	      lat: 37.7,
-	      lng: -122.2
+	      lat: 37.79,
+	      lng: -122.26
 	    }, dstAddress: {
 	      address: '',
-	      lat: 37.7,
-	      lng: -122.2
+	      lat: 37.79,
+	      lng: -122.26
 	    },
 	    stat: '',
 	    departTime: '0 0' };
@@ -25202,8 +25306,8 @@
 	});
 	var station = function station() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-	    dstStation: { name: '', lat: 37.9, lng: -120.2 },
-	    orgStation: { name: '', lat: 37.80, lng: -120.25 } };
+	    dstStation: { name: '', lat: 37.75, lng: -122.4 },
+	    orgStation: { name: '', lat: 37.75, lng: -122.4 } };
 	  var action = arguments[1];
 
 	  switch (action.type) {
@@ -25270,6 +25374,7 @@
 	var toBart = function toBart() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
 	    timeToBart: { text: '', time: 0 },
+	    timeFromBart: { text: '', time: 0 },
 	    dstDirections: [],
 	    orgDirections: []
 	  };
@@ -25278,7 +25383,11 @@
 	  switch (action.type) {
 	    case 'UPDATE_TIME_TO_BART':
 	      return Object.assign({}, state, {
-	        timeToBart: action.timeToBart
+	        timeToBart: action.timeBart
+	      });
+	    case 'UPDATE_TIME_FROM_BART':
+	      return Object.assign({}, state, {
+	        timeFromBart: action.timeBart
 	      });
 	    case 'UPDATE_DIRECTIONS_DST':
 	      return Object.assign({}, state, {

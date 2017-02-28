@@ -21,7 +21,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addTime: (value, text) => {
-//      dispatch(addToBartTime(value, text));
+      dispatch(addToBartTime(value, text, 'UPDATE_TIME_FROM_BART'));
     },
     addDirections: (array) => {
       dispatch(addBartDirectionDsts(array, 'UPDATE_DIRECTIONS_DST'));

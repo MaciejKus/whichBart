@@ -8,21 +8,31 @@ let SearchBar = (props) => {
   let departTime;
 
   return (
-  <div>
+  <div className='searchBar'>
+    <h1>Bike and Bart</h1>
     <form onSubmit={ e => {
       e.preventDefault();
       props.onClick(orgInput.value, dstInput.value, departTime.value);
     }}>
-        <input
+        <div className="labelAndInput">
+        <label className="block">Origin Address:</label>
+        <input 
           ref = {node => {
             orgInput = node;
         }}/>
-        <input
+        </div>
+        <div className="labelAndInput">
+        <label className="block">Destination Address:</label>
+        <input 
           ref = {node => {
             dstInput = node;
         }}/>
-        <select ref= { node => {departTime = node }}>
-           <option value="0 0">depart</option>
+        </div>
+        <br />
+        <div className="labelAndInput">
+        <label className="block">Departure Time (optional):</label>
+        <select className="subbutton"  ref= { node => {departTime = node }}>
+           <option value="0 0"></option>
            <option value="4 00">4:00am</option>
            <option value="4 30">4:30am</option>
            <option value="5 00">5:00am</option>
@@ -66,15 +76,21 @@ let SearchBar = (props) => {
            <option value="24 00">12:00am</option>
            <option value="24 30">12:30am</option>
         </select>
-        <input 
+        </div>
+        <br />
+        <input className="subbutton sub"
           type="submit"
 	  value="Submit"
 	/>
       </form>
-      Origin Address: { props.org.address} 
-      <br />
-      Destination Address: { props.dst.address } 
-      <p> { props.stat } </p>
+      <div className="addresses">
+        { props.org.address} 
+        <br />
+          { props.dst.address ? "to" : "" }
+        <br />
+         { props.dst.address } 
+        <p> { props.stat } </p>
+      </div>
   </div>
 )
 }

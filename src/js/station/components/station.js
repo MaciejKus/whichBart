@@ -6,7 +6,6 @@ let Station = (props) => {
   if(props.dstStation.name) {
     return (
     <div>
-BOOP
     </div>
     )
   } else {

@@ -1,6 +1,6 @@
 const station = (state = {
-  dstStation: {name: '', lat: 37.9, lng: -120.2 },
-  orgStation: {name: '', lat: 37.80, lng: -120.25}},  action) => {
+  dstStation: {name: '', lat: 37.75, lng: -122.4 },
+  orgStation: {name: '', lat: 37.75, lng: -122.4}},  action) => {
   switch(action.type) {
     case 'UPDATE_DST_STATION':
       return Object.assign({}, state, {
