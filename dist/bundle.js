@@ -24510,7 +24510,7 @@
 
 	      //remove everything inside <> brackets (the HTML)
 	      var rmHTML = function rmHTML(t) {
-	        return t.replace(/<(?:.|\n)*?>/gm, '');
+	        return t.replace(/<(?:.|\n)*?>/gm, ' ');
 	      };
 
 	      var addDirs = function addDirs(a) {
@@ -24956,28 +24956,30 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      if (this.props.orgStation.name) {
-	        var triptime = '';
-	        if (this.props.times[0]) {
-	          var t = parseInt(this.props.dstTime.value / 60 + this.props.orgTime.value / 60 + parseInt(this.props.times[0].tripTime));
-	          //       t += 5; //wait time for a bart train
-	          var h = Math.floor(t / 60);
-	          var m = t % 60;
-	          if (m < 10) m = '0' + m;
-	          triptime = 'The whole trip will take around ' + h + ':' + m + " hours";
-	        }
-	        return _react2.default.createElement(
-	          'span',
-	          null,
-	          _react2.default.createElement('a', { name: 'summary' }),
+	      var triptime = '';
+	      if (this.props.times[0]) {
+	        var t = parseInt(this.props.dstTime.value / 60 + this.props.orgTime.value / 60 + parseInt(this.props.times[0].tripTime));
+	        //       t += 5; //wait time for a bart train
+	        var h = Math.floor(t / 60);
+	        var m = t % 60;
+	        if (m < 10) m = '0' + m;
+	        triptime = 'The whole trip will take around ' + h + ':' + m + " hours";
+	      }
+	      return _react2.default.createElement(
+	        'span',
+	        null,
+	        _react2.default.createElement('a', { name: 'summary' }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'summary' },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'summary' },
-	            _react2.default.createElement(
-	              'h2',
-	              null,
-	              'Trip Summary'
-	            ),
+	            'h2',
+	            null,
+	            'Trip Summary'
+	          ),
+	          this.props.orgStation.name && _react2.default.createElement(
+	            'span',
+	            null,
 	            'The nearest BART station is ',
 	            _react2.default.createElement(
 	              'strong',
@@ -24993,7 +24995,11 @@
 	              this.props.orgTime.text
 	            ),
 	            ' to get there by bicycle.',
-	            _react2.default.createElement('br', null),
+	            _react2.default.createElement('br', null)
+	          ),
+	          this.props.dstStation.name && _react2.default.createElement(
+	            'span',
+	            null,
 	            'Take BART to ',
 	            _react2.default.createElement(
 	              'strong',
@@ -25001,7 +25007,11 @@
 	              this.props.dstStation.name
 	            ),
 	            ' Station.',
-	            _react2.default.createElement('br', null),
+	            _react2.default.createElement('br', null)
+	          ),
+	          this.props.times.length > 0 && _react2.default.createElement(
+	            'span',
+	            null,
 	            'You can catch the following trains:',
 	            _react2.default.createElement(
 	              'ol',
@@ -25029,7 +25039,11 @@
 	                );
 	              })
 	            ),
-	            _react2.default.createElement('br', null),
+	            _react2.default.createElement('br', null)
+	          ),
+	          this.props.dstStation.name && _react2.default.createElement(
+	            'span',
+	            null,
 	            'From ',
 	            this.props.dstStation.name,
 	            ' Station it will take another ',
@@ -25043,10 +25057,8 @@
 	            triptime,
 	            _react2.default.createElement('br', null)
 	          )
-	        );
-	      } else {
-	        return _react2.default.createElement('a', { name: 'summary' });
-	      }
+	        )
+	      );
 	    }
 	  }]);
 

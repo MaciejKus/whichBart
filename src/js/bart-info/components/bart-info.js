@@ -15,7 +15,6 @@ class BartInfo extends React.Component {
   }
 
   render() {
-    if(this.props.orgStation.name) {
       let triptime = '';
       if(this.props.times[0]) {
        let t= parseInt((this.props.dstTime.value / 60) + (this.props.orgTime.value / 60) + parseInt(this.props.times[0].tripTime))
@@ -30,12 +29,22 @@ class BartInfo extends React.Component {
         <a name="summary"></a>
       <div className="summary">
         <h2>Trip Summary</h2>
+      {this.props.orgStation.name &&
+       <span>
         The nearest BART station is <strong>{ this.props.orgStation.name }</strong>.
         <br />
         It will take about <strong>{ this.props.orgTime.text }</strong> to get there by bicycle. 
         <br />
+       </span>}
+
+      {this.props.dstStation.name && 
+       <span>
         Take BART to <strong>{ this.props.dstStation.name }</strong> Station.
         <br />
+       </span> }
+
+      {this.props.times.length > 0 && 
+       <span>
         You can catch the following trains:
         <ol>
           {this.props.times.map( (t,i) =>
@@ -43,19 +52,19 @@ class BartInfo extends React.Component {
           )} 
         </ol>
         <br />
+        </span>}
+
+       {this.props.dstStation.name &&
+        <span>
         From { this.props.dstStation.name } Station it will take another <strong>{ this.props.dstTime.text }</strong> by bicycle to get to your destination. 
         <br />
         { triptime }
         <br />
+       </span> }
              
       </div>
       </span>
       )
-    } else {
-      return (
-        <a name="summary"></a>
-      )
-    }
   }
 }
 

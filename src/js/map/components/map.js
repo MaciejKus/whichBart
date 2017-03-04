@@ -24,7 +24,7 @@ class GMap extends React.Component {
   componentWillReceiveProps(nextProps) {
     //remove everything inside <> brackets (the HTML)
     const rmHTML = (t) => {
-      return t.replace(/<(?:.|\n)*?>/gm, '');
+      return t.replace(/<(?:.|\n)*?>/gm, ' ');
     }
 
 

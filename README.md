@@ -1,3 +1,4 @@
-getting to bike + bart combined. Can't currently combine the two using google maps.
+Combine BART and bicycling directions with a single click. 
 
-putting this off to work on a different project for the next few months.
+Using BART API and Google Maps API you can see how long it would take you to get from point A to point B using BART and your bicycle. 
+
