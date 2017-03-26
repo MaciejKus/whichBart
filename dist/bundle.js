@@ -24283,6 +24283,16 @@
 	  "state": "CA",
 	  "zipcode": "94596"
 	}, {
+	  "name": "Warm Spings / South Fremont",
+	  "abbr": "WARM",
+	  "gtfs_latitude": "37.502583",
+	  "gtfs_longitude": "-121.93642",
+	  "address": "45193 Warm Springs Blvd",
+	  "city": "Fremont",
+	  "county": "alameda",
+	  "state": "CA",
+	  "zipcode": "94539"
+	}, {
 	  "name": "West Dublin/Pleasanton",
 	  "abbr": "WDUB",
 	  "gtfs_latitude": "37.699759",
